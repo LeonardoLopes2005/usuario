@@ -1,10 +1,7 @@
 package com.javanauta.usuario.infrastructure.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -14,6 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "endereco")
+@Builder
+
 public class Endereco {
 
     @Id
@@ -24,7 +23,7 @@ public class Endereco {
     @Column(name = "numero")
     private Long numero;
     @Column(name = "complemento", length = 20)
-    private String completemento;
+    private String complemento;
     @Column(name = "cidade", length = 100)
     private String cidade;
     @Column(name = "estado", length = 2)
@@ -34,7 +33,7 @@ public class Endereco {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
-    private List<Telefone> telefone;
+    private List<Telefone> telefones;
 
 
 
