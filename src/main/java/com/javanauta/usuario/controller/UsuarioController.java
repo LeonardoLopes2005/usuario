@@ -28,11 +28,11 @@ public class UsuarioController {
 
     // Spring security deixando mais seguro o login do usuario
     @PostMapping("/login")
-    public String login(UsuarioDTO usuarioDTO){
+    public String login(@RequestBody UsuarioDTO usuarioDTO){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(usuarioDTO.getEmail(),
                         usuarioDTO.getSenha()));
-        return jwtUtil.generateToken(authentication.getName());
+        return "Bearer " + jwtUtil.generateToken(authentication.getName());
     }
 
     @GetMapping
@@ -40,10 +40,16 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.buscarUsuarioPorEmail(email));
     }
 
-    @DeleteMapping("/email")
+    @DeleteMapping("/{email}")
     public ResponseEntity<Void> deletaUsuarioPorEmail(@PathVariable String email){
         usuarioService.deletaUsuarioPorEmail(email);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<UsuarioDTO> atualizaDadosUsuario(@RequestBody UsuarioDTO dto,
+                                                           @RequestHeader("Authorization")String token){
+        return ResponseEntity.ok(usuarioService.atualizaDadosUsuario(token, dto));
     }
 
 }

@@ -103,4 +103,17 @@ public class UsuarioConverter {
                 .ddd(telefoneDTO.getDdd())
                 .build();
     }
+
+
+    // alterar tabela de dados do usuario, e salvando no bando de dados as passando por um metodo para verificar que nao caia e nullo o restante que nao esta sendo atualizado
+    public Usuario updateUsuario(UsuarioDTO usuarioDTO, Usuario entity){
+        return Usuario.builder()
+                .nome(usuarioDTO.getNome() != null ? usuarioDTO.getNome() : entity.getNome())
+                .id(entity.getId())
+                .senha(usuarioDTO.getSenha() != null ? usuarioDTO.getSenha() : entity.getSenha())
+                .email(usuarioDTO.getEmail() != null ? usuarioDTO.getEmail() : entity.getEmail())
+                .enderecos(entity.getEnderecos())
+                .telefones(entity.getTelefones())
+                .build();
+    }
 }
